@@ -1,0 +1,6 @@
+@prova_pratica_mazzafc.Server_HostAddress = http://localhost:5244
+
+GET {{prova_pratica_mazzafc.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
