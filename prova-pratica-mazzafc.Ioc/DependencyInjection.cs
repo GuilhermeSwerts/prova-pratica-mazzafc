@@ -1,6 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using prova_pratica_mazzafc.Service.Interfaces.Buyer;
 using prova_pratica_mazzafc.Service.Interfaces.Meat;
+using prova_pratica_mazzafc.Service.Interfaces.Order;
+using prova_pratica_mazzafc.Service.Interfaces.Origin;
+using prova_pratica_mazzafc.Service.Services.Buyer;
 using prova_pratica_mazzafc.Service.Services.Meat;
+using prova_pratica_mazzafc.Service.Services.Order;
+using prova_pratica_mazzafc.Service.Services.Origin;
 
 namespace prova_pratica_mazzafc.Ioc
 {
@@ -9,12 +15,10 @@ namespace prova_pratica_mazzafc.Ioc
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<IMeatService, MeatService>();
-
-            return services;
-        }
-
-        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
-        {
+            services.AddScoped<IBuyerService, BuyerService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOriginService, OriginService>();
+            
             return services;
         }
     }

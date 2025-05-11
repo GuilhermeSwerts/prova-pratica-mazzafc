@@ -50,16 +50,74 @@ namespace prova_pratica_mazzafc.Util.ExtensionsMethods
             context.SaveChanges();
         }
 
-        public static T? GetByIdentifier<T>(this SqlContext context, Guid identifier) where T : class, IEntity
+        public static T? GetValue<T>(
+            this SqlContext context,
+            Expression<Func<T, bool>> condition,
+            params Expression<Func<T, object>>[] includes
+        ) where T : class, ISoftDeletable
         {
-            return context.Set<T>().FirstOrDefault(e => e.Identifier == identifier);
+            IQueryable<T> query = context.Set<T>();
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            Expression<Func<T, bool>> notDeleted = x => !x.HasDeleted;
+
+            var parameter = Expression.Parameter(typeof(T));
+            var body = Expression.AndAlso(
+                Expression.Invoke(condition, parameter),
+                Expression.Invoke(notDeleted, parameter)
+            );
+
+            var combined = Expression.Lambda<Func<T, bool>>(body, parameter);
+
+            return query.FirstOrDefault(combined);
+        }
+
+        public static List<T> GetValues<T>(
+            this SqlContext context,
+            Expression<Func<T, bool>> condition,
+            params Expression<Func<T, object>>[] includes
+        ) where T : class, ISoftDeletable
+        {
+            IQueryable<T> query = context.Set<T>();
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            Expression<Func<T, bool>> notDeleted = x => !x.HasDeleted;
+
+            var parameter = Expression.Parameter(typeof(T));
+            var body = Expression.AndAlso(
+                Expression.Invoke(condition, parameter),
+                Expression.Invoke(notDeleted, parameter)
+            );
+
+            var combined = Expression.Lambda<Func<T, bool>>(body, parameter);
+
+            return query.Where(combined).ToList();
+        }
+
+        public static T? GetByIdentifier<T>(this SqlContext context, Guid identifier) where T : class, IEntity, ISoftDeletable
+        {
+            return context.Set<T>().FirstOrDefault(e => e.Identifier == identifier && !e.HasDeleted);
         }
 
         public static T? GetByIdentifier<T>(
             this SqlContext context,
             Guid identifier,
             params Expression<Func<T, object>>[] includes
-            ) where T : class, IEntity
+            ) where T : class, IEntity, ISoftDeletable
         {
             IQueryable<T> query = context.Set<T>();
             
@@ -71,13 +129,12 @@ namespace prova_pratica_mazzafc.Util.ExtensionsMethods
                 }
             }
 
-            return query.FirstOrDefault(e => e.Identifier == identifier);
+            return query.FirstOrDefault(e => e.Identifier == identifier && !e.HasDeleted);
         }
 
-
-        public static T? GetById<T>(this SqlContext context, int id) where T : class, IEntity
+        public static T? GetById<T>(this SqlContext context, int id) where T : class, IEntity, ISoftDeletable
         {
-            return context.Set<T>().FirstOrDefault(e => e.Id == id);
+            return context.Set<T>().FirstOrDefault(e => e.Id == id && !e.HasDeleted);
         }
     }
 

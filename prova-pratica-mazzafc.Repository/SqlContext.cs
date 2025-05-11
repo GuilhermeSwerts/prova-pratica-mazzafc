@@ -29,7 +29,7 @@ namespace prova_pratica_mazzafc.Repository
                      .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<Order>(entity =>
+            modelBuilder.Entity<OrderMap>(entity =>
             {
                 entity.HasKey(r => r.Id);
 
@@ -39,7 +39,7 @@ namespace prova_pratica_mazzafc.Repository
                      .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<OrderMeat>(entity =>
+            modelBuilder.Entity<OrderMeatMap>(entity =>
             {
                 entity.HasKey(r => r.Id);
 
@@ -80,12 +80,12 @@ namespace prova_pratica_mazzafc.Repository
         public DbSet<OriginMap> Origins { get; set; }
         public DbSet<TypeCoinMap> TypesCoins { get; set; }
 
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderMap> Orders { get; set; }
         public DbSet<MeatMap> Meats { get; set; }
         public DbSet<BuyerMap> Buyers { get; set; }
 
         public DbSet<MeatOriginMap> MeatsOrigins { get; set; }
-        public DbSet<OrderMeat> OrderMeats { get; set; }
+        public DbSet<OrderMeatMap> OrderMeats { get; set; }
         public DbSet<BuyerLocationMap> BuyerLocations { get; set; }
 
         public DbSet<LogError> LogError { get; set; }

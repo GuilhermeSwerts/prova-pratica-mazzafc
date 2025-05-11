@@ -19,6 +19,6 @@ namespace prova_pratica_mazzafc.Repository.Map
         [Column("tycprefix")]
         public string Prefix { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<OrderMap> Orders { get; set; }
     }
 }

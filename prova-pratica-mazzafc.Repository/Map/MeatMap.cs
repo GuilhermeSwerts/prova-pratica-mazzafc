@@ -18,7 +18,6 @@ namespace prova_pratica_mazzafc.Repository.Map
         [Column("metdescription")]
         public string Description { get; set; }
 
-        public ICollection<OrderMeat> OrderMeats { get; set; }
         public ICollection<MeatOriginMap> MeatsOrigins { get; set; }
     }
 }

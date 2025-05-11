@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace prova_pratica_mazzafc.Repository.Map
 {
     [Table("omtorder_meat")]
-    public class OrderMeat
+    public class OrderMeatMap : MapBase
     {
         [Column("omtcod")]
         public int Id { get; set; }
@@ -25,7 +25,7 @@ namespace prova_pratica_mazzafc.Repository.Map
         [Column("mticod")]
         public int MeatOriginId { get; set; }
 
-        public Order Order { get; set; }
+        public OrderMap Order { get; set; }
         public MeatOriginMap MeatOrigin { get; set; }
     }
 }

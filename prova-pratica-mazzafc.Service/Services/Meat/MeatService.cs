@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using prova_pratica_mazzafc.Models.Request.Meat;
 using prova_pratica_mazzafc.Models.Response;
+using prova_pratica_mazzafc.Models.Response.Buyer;
 using prova_pratica_mazzafc.Models.Response.Meat;
 using prova_pratica_mazzafc.Repository;
 using prova_pratica_mazzafc.Repository.Map;
 using prova_pratica_mazzafc.Service.Interfaces.Meat;
 using prova_pratica_mazzafc.Util.ExtensionsMethods;
+using System;
 
 
 namespace prova_pratica_mazzafc.Service.Services.Meat
@@ -125,6 +127,19 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
             try
             {
                 var meat = _sqlContext.GetByIdentifier<MeatOriginMap>(identifier, x => x.Origin, x => x.Meat);
+                if (meat == null)
+                {
+                    return new ApiResponse<MeatDto>
+                    {
+                        RequestSuccess = false,
+                        Erro = new ApiErro
+                        {
+                            Exception = "Carne não encontrada",
+                            Message = "Carne não encontrada"
+                        },
+                        ResponseData = new()
+                    };
+                }
                 return new ApiResponse<MeatDto>
                 {
                     RequestSuccess = true,
@@ -193,7 +208,7 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
             {
                 var meat = _sqlContext.GetByIdentifier<MeatOriginMap>(identifier,x=> x.Origin,x=> x.Meat);
                 
-                if(_sqlContext.OrderMeats.Any(x=> x.MeatOriginId == meat.Id))
+                if(_sqlContext.OrderMeats.Any(x=> x.MeatOriginId == meat.Id && !x.HasDeleted))
                 {
                     tran.Rollback();
                     return new ApiResponse<bool>

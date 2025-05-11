@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace prova_pratica_mazzafc.Repository.Map
 {
     [Table("odrorder")]
-    public class Order
+    public class OrderMap : MapBase
     {
         [Column("odrcod")]
         public int Id { get; set; }
@@ -20,6 +20,6 @@ namespace prova_pratica_mazzafc.Repository.Map
         public int TypeCoinId { get; set; }
 
         public TypeCoinMap TypeCoin { get; set; }
-        public ICollection<OrderMeat> OrderMeats { get; set; }
+        public ICollection<OrderMeatMap> OrderMeats { get; set; }
     }
 }
