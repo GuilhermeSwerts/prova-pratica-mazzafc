@@ -1,59 +1,35 @@
 import { useNavigate } from 'react-router-dom';
 import { GenericTable } from '../../components/ui/Table';
 import { Column } from '../../types/ui/Table';
-import { DeleteMeat, NewMeat } from '../../services/Meat';
+import { AllMeats, DeleteMeat, EditMeat, MeatByIdentifier, NewMeat } from '../../services/Meat';
 import { Alert } from '../../utils/alert/Alert';
 import { FilterBuilder } from '../../components/ui/Filter';
 import { TransformData } from '../../utils/tools/TransformData';
-import ModalMeat from './modal/modalMeat';
-import { useRef, useState } from 'react';
+import ModalMeat from './modal/ModalMeat';
+import { useEffect, useRef, useState } from 'react';
 import Modal from '../../components/ui/Modal';
 import { IOrigin } from '../../interfaces/Origin';
-
-type Meats = {
-    id: number;
-    name: string;
-    origin: string;
-    identifier: string;
-    dtRegister: string;
-};
-
-export const meats: Meats[] = [
-    { id: 1, name: "Picanha", origin: "Bovina", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 2, name: "Frango à Passarinho", origin: "Aves", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 3, name: "Linguiça Toscana", origin: "Suína", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 4, name: "Costela", origin: "Bovina", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 5, name: "Coração de Frango", origin: "Aves", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 6, name: "Alcatra", origin: "Bovina", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 7, name: "Cupim", origin: "Bovina", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 8, name: "Lombo", origin: "Suína", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 9, name: "Asinha", origin: "Aves", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 10, name: "Maminha", origin: "Bovina", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-    { id: 11, name: "Costelinha", origin: "Suína", identifier: "819c2f67-eb51-4ee1-af82-cbb4ac903838", dtRegister: "01/01/2001 10:20:30" },
-];
-
-const origins: IOrigin[] = [
-    { id: 1, name: 'Bovina' },
-    { id: 2, name: 'Aves' },
-    { id: 3, name: 'Suína' },
-    { id: 4, name: 'Peixe' },
-]
+import { Meats } from '../../types/Meat/Meat';
+import { AllOrigins } from '../../services/Origin';
 
 function Meat() {
     const navigate = useNavigate();
     const modalRef = useRef<Modal>(null);
     const [description, setDescription] = useState("")
     const [origin, setOrigin] = useState(0)
+    const [meats, setmMats] = useState<Meats[]>([])
+    const [origins, setOrigins] = useState<IOrigin[]>([])
 
     const columns: Column<Meats>[] = [
-        { header: "#", accessor: "id" },
         { header: "Descrição", accessor: "name" },
         { header: "Origem", accessor: "origin" },
         { header: "Data Cadastro", accessor: "dtRegister" },
     ];
 
     const onLoadPage = () => {
-
+        AllMeats(response => {
+            setmMats(response);
+        })
     }
 
     const handleDelete = (key: string) => {
@@ -73,8 +49,41 @@ function Meat() {
             description,
             origin
         }, () => {
+            modalRef.current?.onClose();
+            setOrigin(0);
+            setDescription('');
             onLoadPage();
             Alert("Carne cadastrada com sucesso!");
+        })
+    }
+
+    useEffect(() => {
+        onLoadPage();
+        AllOrigins(response => setOrigins(response));
+    }, [])
+
+    const onEdit = (identifier: string) => {
+        MeatByIdentifier(identifier, response => {
+            setOrigin(response.originId);
+            setDescription(response.name);
+            modalRef.current?.onOpenEdit(identifier);
+        })
+    }
+
+    const handleEditMeat = (identifier: string) => {
+        if (!description || !origin) {
+            Alert('Os campos "Descrição da carne" e "Origem da carne", são obrigatórios!', "", false, false, true);
+            return;
+        }
+        EditMeat({
+            description,
+            origin
+        }, identifier, () => {
+            modalRef.current?.onClose();
+            setOrigin(0);
+            setDescription('');
+            onLoadPage();
+            Alert("Carne editada com sucesso!");
         })
     }
 
@@ -82,6 +91,7 @@ function Meat() {
     return (
         <div className="p-4">
             <ModalMeat
+                onEdit={i => handleEditMeat(i)}
                 onSubmit={handleNewMeat}
                 originSelected={origin}
                 description={description}
@@ -100,7 +110,7 @@ function Meat() {
                 columns={columns}
                 keyField="identifier"
                 enableActions
-                onEdit={(key) => navigate(`${key}`)}
+                onEdit={(key) => onEdit(`${key}`)}
                 onDelete={(key) => handleDelete(String(key))}
             />
         </div>

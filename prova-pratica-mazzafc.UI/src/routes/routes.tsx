@@ -6,13 +6,6 @@ import { MdOutlineRestaurantMenu } from "react-icons/md";
 
 export const routes = [
     {
-        pageName: 'Origem da carne',
-        Icon: MdOutlineRestaurantMenu,
-        path: 'origin',
-        component: <Layout>Pedidos</Layout>,
-        isPage: true
-    },
-    {
         pageName: 'Carnes',
         Icon: GiMeat,
         path: 'meat',

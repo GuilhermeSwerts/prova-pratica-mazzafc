@@ -12,9 +12,10 @@ type FilterBuilderProps = {
     columns: FieldValue[];
     transformDataKeys: Record<string, any[]>;
     onNewItem: () => void;
+    onFilter: (filters: FilterSelected[]) => void;
 };
 
-export function FilterBuilder({ columns, transformDataKeys, onNewItem }: FilterBuilderProps) {
+export function FilterBuilder({ columns, transformDataKeys, onNewItem, onFilter }: FilterBuilderProps) {
     const [fieldSelected, setFieldSelected] = useState<string>("");
     const [conditionSelected, setConditionSelected] = useState<string>("");
     const [fieldComparisonSelected, setFieldComparisonSelected] = useState<string>("");
@@ -39,6 +40,7 @@ export function FilterBuilder({ columns, transformDataKeys, onNewItem }: FilterB
         const fieldName = columns.find(x => x.key === fieldSelected)?.name || "";
 
         const newFilter: FilterSelected = {
+            fieldKey: fieldSelected,
             field: fieldName,
             condition: conditionSelected,
             comparison: fieldSelected.startsWith("dt")
@@ -66,7 +68,7 @@ export function FilterBuilder({ columns, transformDataKeys, onNewItem }: FilterB
     return (
         <div className="p-5 w-full shadow-lg">
             <div className="grid grid-cols-3 gap-5 bg-white border-lg">
-                <SearchInput
+                <Input
                     onClick={() => { }}
                     onChange={() => { }}
                     placeholder="Buscar pela Descrição..."
@@ -136,6 +138,9 @@ export function FilterBuilder({ columns, transformDataKeys, onNewItem }: FilterB
                         </SelectTransition>
                         <Button onClick={() => { setFilters([]) }} variant="outline">
                             Limpar
+                        </Button>
+                        <Button onClick={() => { onFilter(filters) }} variant="primary">
+                            Buscar
                         </Button>
                     </div>
                 </div>

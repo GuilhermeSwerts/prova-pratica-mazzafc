@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { Alert } from '../utils/alert/Alert';
 import { ApiResponse } from '../types/services/api';
 
-const url = import.meta.env.BASE_URL;
+const url = import.meta.env.VITE_API_URL;
 
 type Callback<T = any> = (response: T) => void;
 
@@ -30,14 +30,12 @@ export default class Api {
 
         apiCall
             .then((response) => {
-                const { requestSuccess, responseData, erro } = response.data;
-
-                if (requestSuccess) {
-                    funcResult?.(responseData);
+                if (response.data.requestSuccess) {
+                    funcResult?.(response.data.responseData);
                     return;
                 }
 
-                const { message, exception } = erro || {};
+                const { message, exception } = response.data.erro || {};
                 console.log(exception);
                 Alert(message ?? "Erro desconhecido", "", false);
             })

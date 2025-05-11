@@ -1,25 +1,33 @@
 import { IMeat } from "../interfaces/Meat";
+import { Meats } from "../types/Meat/Meat";
 import { api } from "./api"
+
 export const DeleteMeat = (identifier: string, funcResponse: Function) => {
-    api.delete(`api/meat/${identifier}`, response => {
-        const { responseData } = response.data;
-        funcResponse && funcResponse(responseData);
+    api.delete<boolean>(`api/meat/${identifier}`, response => {
+        funcResponse && funcResponse(response);
+    })
+}
+
+export const EditMeat = (data: IMeat, identifier: string, funcResponse: Function) => {
+    api.put<boolean>(`api/meat/${identifier}`, data, response => {
+        funcResponse && funcResponse(response);
     })
 }
 
 export const NewMeat = (data: IMeat, funcResponse: Function) => {
-    api.post(`api/meat/`, data, response => {
-        const { responseData } = response.data;
-        funcResponse && funcResponse(responseData);
+    api.post<boolean>(`api/meat/`, data, response => {
+        funcResponse && funcResponse(response);
     })
 }
 
-// {
-//     requestSuccess: true,
-//     responseData:{},
-//     erro: {
-//         message: "",
-//         exception:""
-//     },
-//     statusCode: 200
-// }
+export const AllMeats = (funcResponse: (data: Meats[]) => void) => {
+    api.get<Meats[]>(`api/meat/`, response => {
+        funcResponse && funcResponse(response);
+    })
+}
+
+export const MeatByIdentifier = (identifier: string, funcResponse: (data: Meats) => void) => {
+    api.get<Meats>(`api/meat/${identifier}`, response => {
+        funcResponse && funcResponse(response);
+    })
+}

@@ -38,7 +38,7 @@ namespace prova_pratica_mazzafc.Server.Controllers
 
         [HttpGet]
         [Route("{identifier}")]
-        public IActionResult NewMeat([FromRoute] Guid identifier)
+        public IActionResult MeatByIdentifier([FromRoute] Guid identifier)
         {
             try
             {

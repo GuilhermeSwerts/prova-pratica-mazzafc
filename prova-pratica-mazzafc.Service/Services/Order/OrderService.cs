@@ -44,6 +44,7 @@ namespace prova_pratica_mazzafc.Service.Services.Order
                                 Name = om.MeatOrigin.Meat.Description,
                                 Origin = om.MeatOrigin.Origin.Description,
                                 DtRegister = om.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
+                                OriginId = om.MeatOrigin.OriginId,
                             })
                             .ToList()
                     })
@@ -140,7 +141,8 @@ namespace prova_pratica_mazzafc.Service.Services.Order
                             Identifier = om.MeatOrigin.Identifier.ToString(),
                             Name = om.MeatOrigin.Meat.Description,
                             Origin = om.MeatOrigin.Origin.Description,
-                            DtRegister = om.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss")
+                            DtRegister = om.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
+                            OriginId = om.MeatOrigin.OriginId,
                         }).ToList()
                 };
 

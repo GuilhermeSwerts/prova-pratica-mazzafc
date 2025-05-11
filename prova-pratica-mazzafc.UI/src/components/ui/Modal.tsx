@@ -11,13 +11,13 @@ type ModalProps = {
     title?: string;
     children: React.ReactNode;
     buttonTitle: string;
-    funcButtonTitle: () => void;
+    funcNewItem: () => void;
+    funcEditItem: (identifier: string) => void;
 };
 
 type ModalState = {
     show: boolean;
     isEdit: boolean;
-    id: number;
     identifier: string;
 };
 
@@ -40,7 +40,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
     initialState: ModalState = {
         show: false,
         isEdit: false,
-        id: 0,
         identifier: "",
     };
 
@@ -48,8 +47,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
         this.setState({ show: true });
     };
 
-    onOpenEdit = (id: number, identifier: string) => {
-        this.setState({ show: true, isEdit: true, id, identifier });
+    onOpenEdit = (identifier: string) => {
+        this.setState({ show: true, isEdit: true, identifier });
     };
 
     onClose = () => {
@@ -57,8 +56,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     render() {
-        const { show } = this.state;
-        const { children, title, buttonTitle, funcButtonTitle } = this.props;
+        const { show, isEdit, identifier } = this.state;
+        const { children, buttonTitle, funcNewItem, funcEditItem } = this.props;
 
         return (
             <AnimatePresence>
@@ -87,7 +86,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
                             <div className="mt-4">{children}</div>
 
                             <div className="flex items-center justify-end mt-6">
-                                <Button variant="primary" onClick={funcButtonTitle}>
+                                <Button variant="primary" onClick={e => isEdit ? funcEditItem(identifier) : funcNewItem()}>
                                     {buttonTitle}
                                 </Button>
                             </div>

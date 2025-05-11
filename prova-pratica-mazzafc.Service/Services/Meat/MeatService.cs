@@ -27,7 +27,8 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                          DtRegister = x.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
                          Identifier = x.Identifier.ToString(),
                          Name = x.Meat.Description,
-                         Origin = x.Origin.Description
+                         Origin = x.Origin.Description,
+                         OriginId = x.Origin.Id,
                      })
                      .ToList();
 
@@ -148,7 +149,8 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                         DtRegister = meat.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
                         Identifier = meat.Identifier.ToString(),
                         Name = meat.Meat.Description,
-                        Origin = meat.Origin.Description
+                        Origin = meat.Origin.Description,
+                        OriginId = meat.Origin.Id,
                     }
                 };
             }
@@ -173,6 +175,19 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
             try
             {
                 var meat = _sqlContext.GetByIdentifier<MeatOriginMap>(request.Identifier.Value, x => x.Origin, x => x.Meat);
+
+                if (_sqlContext.MeatsOrigins.Any(x => x.MeatId == meat.Id && x.OriginId == request.Origin))
+                {
+                    return new ApiResponse<bool>
+                    {
+                        Erro = new()
+                        {
+                            Message = "Carne já registrada para a origem."
+                        },
+                        RequestSuccess = false,
+                        ResponseData = false
+                    };
+                }
 
                 meat.Meat.Description = request.Description;
                 meat.OriginId = request.Origin;

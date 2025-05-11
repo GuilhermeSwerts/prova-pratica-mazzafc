@@ -10,16 +10,18 @@ type ModalMeatProps = {
     origins: IOrigin[]
     setOriginSelected: (id: number) => void;
     onSubmit: () => void;
+    onEdit: (identifier: string) => void;
     originSelected: number
 }
 
-export default function ModalMeat({ description, origins, setDescription, setOriginSelected, modalRef, originSelected, onSubmit }: ModalMeatProps) {
+export default function ModalMeat({ description, origins, setDescription, setOriginSelected, modalRef, originSelected, onSubmit, onEdit }: ModalMeatProps) {
 
     return (
         <Modal
             ref={modalRef}
             buttonTitle="Salvar"
-            funcButtonTitle={onSubmit}
+            funcNewItem={onSubmit}
+            funcEditItem={onEdit}
             title="Carnes"
         >
             <Input

@@ -4,6 +4,7 @@ export type FieldValue = {
 }
 
 export type FilterSelected = {
+    fieldKey: string,
     field: string,
     condition: string,
     comparison: string,
