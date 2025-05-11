@@ -193,6 +193,21 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
             {
                 var meat = _sqlContext.GetByIdentifier<MeatOriginMap>(identifier,x=> x.Origin,x=> x.Meat);
                 
+                if(_sqlContext.OrderMeats.Any(x=> x.MeatOriginId == meat.Id))
+                {
+                    tran.Rollback();
+                    return new ApiResponse<bool>
+                    {
+                        Erro = new ApiErro
+                        {
+                            Exception = "Não é permitido excluir a carne enquanto houver pedidos vinculados.",
+                            Message = "Não é permitido excluir a carne enquanto houver pedidos vinculados."
+                        },
+                        RequestSuccess = false,
+                        ResponseData = new()
+                    };
+                }
+
                 if(_sqlContext.MeatsOrigins.Count(x=> x.MeatId == meat.Meat.Id && !x.HasDeleted) == 1)
                 {
                     meat.Meat.HasDeleted = true;

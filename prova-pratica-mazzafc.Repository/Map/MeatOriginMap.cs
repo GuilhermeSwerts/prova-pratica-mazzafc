@@ -22,5 +22,6 @@ namespace prova_pratica_mazzafc.Repository.Map
         public MeatMap Meat { get; set; }
         public OriginMap Origin { get; set; }
 
+        public ICollection<OrderMeat> OrderMeats { get; set; }
     }
 }

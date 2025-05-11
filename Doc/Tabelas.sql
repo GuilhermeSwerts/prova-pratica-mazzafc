@@ -148,7 +148,7 @@ CREATE TABLE [omtorder_meat] (
     [ordcod] INT NOT NULL,
     [ordquantity] INT NOT NULL,
     [ordprice] DECIMAL(18,2) NOT NULL,
-    [metcod] INT NULL,
+    [mticod] INT NULL,
     [identifier] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
     [createduser] INT NOT NULL,
     [createdon] DATETIME NOT NULL DEFAULT GETDATE(),
@@ -158,7 +158,7 @@ CREATE TABLE [omtorder_meat] (
     [deletedon] DATETIME NULL,
     [deleteduser] INT NULL,
     FOREIGN KEY ([ordcod]) REFERENCES [odrorder]([odrcod]),
-    FOREIGN KEY ([metcod]) REFERENCES [metmeat]([metcod]),
+    FOREIGN KEY ([mticod]) REFERENCES [mtimeat_origin]([mticod]),
 	FOREIGN KEY ([createduser]) REFERENCES [usuuser]([usucod]),
     FOREIGN KEY ([modifyuser]) REFERENCES [usuuser]([usucod]),
     FOREIGN KEY ([deleteduser]) REFERENCES [usuuser]([usucod])

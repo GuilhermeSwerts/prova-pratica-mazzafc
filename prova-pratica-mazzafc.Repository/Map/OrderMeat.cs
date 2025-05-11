@@ -22,7 +22,10 @@ namespace prova_pratica_mazzafc.Repository.Map
         [Column("ordprice")]
         public decimal Price { get; set; }
 
+        [Column("mticod")]
+        public int MeatOriginId { get; set; }
+
         public Order Order { get; set; }
-        public MeatMap Meat { get; set; }
+        public MeatOriginMap MeatOrigin { get; set; }
     }
 }

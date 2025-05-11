@@ -48,9 +48,9 @@ namespace prova_pratica_mazzafc.Repository
                      .HasForeignKey(r => r.OrderId)
                      .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(t => t.Meat)
+                entity.HasOne(t => t.MeatOrigin)
                      .WithMany(r => r.OrderMeats)
-                     .HasForeignKey(r => r.OrderId)
+                     .HasForeignKey(r => r.MeatOriginId)
                      .OnDelete(DeleteBehavior.Cascade);
             });
 
