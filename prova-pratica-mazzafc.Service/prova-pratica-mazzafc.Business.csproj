@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\prova-pratica-mazzafc.Models\prova-pratica-mazzafc.Models.csproj" />
+    <ProjectReference Include="..\prova-pratica-mazzafc.Util\prova-pratica-mazzafc.Util.csproj" />
+  </ItemGroup>
+
 </Project>

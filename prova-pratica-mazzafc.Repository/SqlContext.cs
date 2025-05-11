@@ -10,16 +10,13 @@ namespace prova_pratica_mazzafc.Repository
 {
     public class SqlContext(DbContextOptions<SqlContext> options) : DbContext(options)
     {
+        #region [ CONSTRUCTOR ]
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MeatMap>(entity =>
             {
                 entity.HasKey(r => r.Id);
-
-                entity.HasOne(t => t.Origin)
-                     .WithMany(r => r.Meats)
-                     .HasForeignKey(r => r.OriginId)
-                     .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<BuyerLocationMap>(entity =>
@@ -42,7 +39,6 @@ namespace prova_pratica_mazzafc.Repository
                      .OnDelete(DeleteBehavior.Cascade);
             });
 
-
             modelBuilder.Entity<OrderMeat>(entity =>
             {
                 entity.HasKey(r => r.Id);
@@ -57,18 +53,43 @@ namespace prova_pratica_mazzafc.Repository
                      .HasForeignKey(r => r.OrderId)
                      .OnDelete(DeleteBehavior.Cascade);
             });
+
+
+            modelBuilder.Entity<MeatOriginMap>(entity =>
+            {
+                entity.HasKey(r => r.Id);
+
+                entity.HasOne(t => t.Origin)
+                     .WithMany(r => r.MeatsOrigins)
+                     .HasForeignKey(r => r.OriginId)
+                     .OnDelete(DeleteBehavior.Cascade);
+                
+                entity.HasOne(t => t.Meat)
+                      .WithMany(r => r.MeatsOrigins)
+                      .HasForeignKey(r => r.MeatId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+
         }
+
+        #endregion
+
+        #region [ PROPERTIES ] 
 
         public DbSet<OriginMap> Origins { get; set; }
         public DbSet<TypeCoinMap> TypesCoins { get; set; }
-        
+
         public DbSet<Order> Orders { get; set; }
         public DbSet<MeatMap> Meats { get; set; }
         public DbSet<BuyerMap> Buyers { get; set; }
-        
+
+        public DbSet<MeatOriginMap> MeatsOrigins { get; set; }
         public DbSet<OrderMeat> OrderMeats { get; set; }
         public DbSet<BuyerLocationMap> BuyerLocations { get; set; }
 
         public DbSet<LogError> LogError { get; set; }
+
+        #endregion
     }
 }

@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace prova_pratica_mazzafc.Repository.Map
 {
-    [Table("oriorigin")]
-    public class OriginMap : MapBase
+    [Table("usuuser")]
+    public class UserMap : MapBase
     {
         [Key]
-        [Column("oricod")]
+        [Column("usucod")]
         public int Id { get; set; }
 
-        [Column("oridescription")]
-        public string Description { get; set; }
+        [Column("usuusername")]
+        public string Name { get; set; }
 
-        public ICollection<MeatOriginMap> MeatsOrigins { get; set; }
+        [Column("userpassword")]
+        public string Password { get; set; }
     }
+
 }
