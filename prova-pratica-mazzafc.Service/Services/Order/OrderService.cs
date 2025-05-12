@@ -24,6 +24,7 @@ namespace prova_pratica_mazzafc.Service.Services.Order
             try
             {
                 var orders = _sqlContext.Orders
+                    .Include(o=> o.Buyer)
                     .Include(o => o.TypeCoin)
                     .Include(o => o.OrderMeats)
                     .ThenInclude(om => om.MeatOrigin)
@@ -34,10 +35,13 @@ namespace prova_pratica_mazzafc.Service.Services.Order
                     .Where(x => !x.HasDeleted)
                     .Select(order => new OrderDto
                     {
+                        BuyerName = order.Buyer.Name,
+                        PrefixCoin = order.TypeCoin.Prefix,
                         Identifier = order.Identifier.ToString(),
                         BuyerId = order.BuyerId,
                         TypeCoin = order.TypeCoin.Name,
                         DtRegister = order.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
+                        Total = order.Total,
                         Meats = order.OrderMeats
                             .Where(x => !x.HasDeleted)
                             .Select(om => new MeatDto
@@ -47,6 +51,8 @@ namespace prova_pratica_mazzafc.Service.Services.Order
                                 Origin = om.MeatOrigin.Origin.Description,
                                 DtRegister = om.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
                                 OriginId = om.MeatOrigin.OriginId,
+                                Price = om.Price,
+                                Quantity = om.Quantity,
                             })
                             .ToList()
                     })
@@ -87,17 +93,20 @@ namespace prova_pratica_mazzafc.Service.Services.Order
                 var order = new OrderMap
                 {
                     BuyerId = request.BuyerId,
-                    TypeCoinId = request.TypeCoinId
+                    TypeCoinId = request.TypeCoinId,
+                    Total = request.MeatOrigins.Sum(x => x.Price)
                 };
 
                 _sqlContext.Insert(order, userId);
 
-                foreach (var meatId in request.MeatOriginIds)
+                foreach (var meatId in request.MeatOrigins)
                 {
                     var orderMeat = new OrderMeatMap
                     {
                         OrderId = order.Id,
-                        MeatOriginId = meatId
+                        MeatOriginId = meatId.Id,
+                        Price = meatId.Price,
+                        Quantity = meatId.Quantity,
                     };
                     _sqlContext.Insert(orderMeat, userId);
                 }
@@ -132,20 +141,26 @@ namespace prova_pratica_mazzafc.Service.Services.Order
                 var order = _sqlContext.GetByIdentifier<OrderMap>(identifier,
                     o => o.TypeCoin,
                     o => o.OrderMeats,
+                    o => o.Buyer,
                     o => o.OrderMeats.Select(om => om.MeatOrigin),
                     o => o.OrderMeats.Select(om => om.MeatOrigin.Meat),
                     o => o.OrderMeats.Select(om => om.MeatOrigin.Origin));
 
                 var dto = new OrderDto
                 {
+                    BuyerName = order.Buyer.Name,
                     Identifier = order.Identifier.ToString(),
                     BuyerId = order.BuyerId,
                     TypeCoin = order.TypeCoin.Name,
+                    PrefixCoin =order.TypeCoin.Prefix,
+                    Total = order.Total,
                     DtRegister = order.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
                     Meats = order.OrderMeats
                         .Where(x => !x.HasDeleted)
                         .Select(om => new MeatDto
                         {
+                            Price = om.Price,
+                            Quantity  = om.Quantity,
                             Identifier = om.MeatOrigin.Identifier.ToString(),
                             Name = om.MeatOrigin.Meat.Description,
                             Origin = om.MeatOrigin.Origin.Description,
@@ -187,6 +202,7 @@ namespace prova_pratica_mazzafc.Service.Services.Order
 
                 order.BuyerId = request.BuyerId;
                 order.TypeCoinId = request.TypeCoinId;
+                order.Total = request.MeatOrigins.Sum(x=> x.Price);
                 _sqlContext.Update(order, userId);
 
                 var existingMeats = order.OrderMeats.Where(x => !x.HasDeleted).ToList();
@@ -195,12 +211,14 @@ namespace prova_pratica_mazzafc.Service.Services.Order
                     _sqlContext.SoftDelete(item, userId);
                 }
 
-                foreach (var meatOriginId in request.MeatOriginIds)
+                foreach (var meatOriginId in request.MeatOrigins)
                 {
                     var newOrderMeat = new OrderMeatMap
                     {
                         OrderId = order.Id,
-                        MeatOriginId = meatOriginId
+                        MeatOriginId = meatOriginId.Id,
+                        Quantity = meatOriginId.Quantity,
+                        Price = meatOriginId.Price,
                     };
                     _sqlContext.Insert(newOrderMeat, userId);
                 }

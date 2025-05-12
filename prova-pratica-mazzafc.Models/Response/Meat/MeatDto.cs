@@ -14,5 +14,8 @@ namespace prova_pratica_mazzafc.Models.Response.Meat
         public int OriginId { get; set; }
         public string Identifier { get; set; }
         public string DtRegister { get; set; }
+
+        public int? Quantity { get; set; }
+        public decimal? Price { get; set; }
     }
 }

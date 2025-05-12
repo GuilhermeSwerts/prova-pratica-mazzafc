@@ -11,7 +11,7 @@ namespace prova_pratica_mazzafc.Models.Request.Order
         public Guid? Identifier { get; set; }
         public int BuyerId { get; set; }
         public int TypeCoinId { get; set; }
-        public List<int> MeatOriginIds { get; set; } = [];
+        public List<OrderMeatOriginRequest> MeatOrigins { get; set; } = [];
     }
 
 }

@@ -33,6 +33,11 @@ namespace prova_pratica_mazzafc.Repository
             {
                 entity.HasKey(r => r.Id);
 
+                entity.HasOne(t => t.Buyer)
+                     .WithMany(r => r.Orders)
+                     .HasForeignKey(r => r.BuyerId)
+                     .OnDelete(DeleteBehavior.Cascade);
+
                 entity.HasOne(t => t.TypeCoin)
                      .WithMany(r => r.Orders)
                      .HasForeignKey(r => r.TypeCoinId)

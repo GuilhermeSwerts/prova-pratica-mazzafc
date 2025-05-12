@@ -11,7 +11,10 @@ namespace prova_pratica_mazzafc.Models.Response.Order
     {
         public string Identifier { get; set; }
         public int BuyerId { get; set; }
+        public decimal Total { get; set; }
+        public string BuyerName { get; set; }
         public string TypeCoin { get; set; }
+        public string PrefixCoin { get; set; }
         public string DtRegister { get; set; }
         public List<MeatDto> Meats { get; set; }
     }

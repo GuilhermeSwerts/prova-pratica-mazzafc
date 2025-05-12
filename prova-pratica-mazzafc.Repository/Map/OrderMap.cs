@@ -22,6 +22,7 @@ namespace prova_pratica_mazzafc.Repository.Map
         [Column("ordtotal")]
         public decimal Total { get; set; }
 
+        public BuyerMap Buyer { get; set; }
         public TypeCoinMap TypeCoin { get; set; }
         public ICollection<OrderMeatMap> OrderMeats { get; set; }
     }

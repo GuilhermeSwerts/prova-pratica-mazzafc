@@ -20,7 +20,8 @@ namespace prova_pratica_mazzafc.Repository.Map
         
         [Column("buyname")]
         public string Name { get; set; }
-
+        
+        public ICollection<OrderMap> Orders { get; set; }
         public ICollection<BuyerLocationMap> Locations { get; set; }
     }
 }
