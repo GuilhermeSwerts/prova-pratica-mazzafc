@@ -94,7 +94,7 @@ namespace prova_pratica_mazzafc.Service.Services.Buyer
                         new BuyerLocationMap
                         {
                             BuyerId = buyer.Id,
-                            State = request.Statae,
+                            State = request.State,
                             City = request.City,
                         };
 
@@ -200,7 +200,7 @@ namespace prova_pratica_mazzafc.Service.Services.Buyer
                 var locations = _sqlContext.GetValue<BuyerLocationMap>(x => x.BuyerId == buyer.Id);
                 if (locations != null)
                 {
-                    locations.State = request.Statae;
+                    locations.State = request.State;
                     locations.City = request.City;
                     _sqlContext.Update(locations, userId);
                 }

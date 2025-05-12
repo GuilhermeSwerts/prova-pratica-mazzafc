@@ -3,6 +3,7 @@ import Layout from "../components/layout/Layout";
 import { GiMeat } from "react-icons/gi";
 import Meat from "../pages/meat/Meat";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
+import Buyers from "../pages/buyers/Buyers";
 
 export const routes = [
     {
@@ -16,7 +17,7 @@ export const routes = [
         pageName: 'Compradores',
         Icon: FaUserTag,
         path: 'buyers',
-        component: <Layout>Compradores</Layout>,
+        component: <Layout><Buyers /></Layout>,
         isPage: true
     },
     {

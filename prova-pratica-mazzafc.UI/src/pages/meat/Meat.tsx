@@ -19,6 +19,7 @@ function Meat() {
     const [origin, setOrigin] = useState(0)
     const [meats, setmMats] = useState<Meats[]>([])
     const [origins, setOrigins] = useState<IOrigin[]>([])
+    const [filters, setFilters] = useState<FilterSelected[]>([])
 
     const columns: Column<Meats>[] = [
         { header: "Descrição", accessor: "name" },
@@ -26,7 +27,7 @@ function Meat() {
         { header: "Data Cadastro", accessor: "dtRegister" },
     ];
 
-    const onLoadPage = (filters: FilterSelected[] = []) => {
+    const onLoadPage = () => {
         const encodedFilters = encodeURIComponent(JSON.stringify(filters));
         const params = `filters=${encodedFilters}`;
         AllMeats(params,response => {
@@ -103,7 +104,9 @@ function Meat() {
                 modalRef={modalRef}
             />
             <FilterBuilder
-                onFilter={(filters) => onLoadPage(filters)}
+                filters={filters}
+                setFilters={setFilters}
+                onFilter={() => onLoadPage()}
                 onNewItem={() => modalRef.current?.onOpenNew()}
                 transformDataKeys={transformedData}
                 columns={columns.map(meat => ({ key: meat.accessor, name: meat.header }))}

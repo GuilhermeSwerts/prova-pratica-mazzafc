@@ -128,6 +128,7 @@ CREATE TABLE [odrorder] (
     [odrcod] INT IDENTITY(1,1) PRIMARY KEY,
     [buycod] INT NOT NULL,
     [tyccod] INT NOT NULL,
+    [ordtotal] DECIMAL(10,2) NOT NULL,
     [identifier] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
     [createduser] INT NOT NULL,
     [createdon] DATETIME NOT NULL DEFAULT GETDATE(),

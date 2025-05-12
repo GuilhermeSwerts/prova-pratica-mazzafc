@@ -13,14 +13,15 @@ type FilterBuilderProps = {
     transformDataKeys: Record<string, any[]>;
     onNewItem: () => void;
     onFilter: (filters: FilterSelected[]) => void;
+    filters: FilterSelected[];
+    setFilters: React.Dispatch<React.SetStateAction<FilterSelected[]>>;
 };
 
-export function FilterBuilder({ columns, transformDataKeys, onNewItem, onFilter }: FilterBuilderProps) {
+export function FilterBuilder({ columns, transformDataKeys, onNewItem, onFilter,filters,setFilters }: FilterBuilderProps) {
     const [fieldSelected, setFieldSelected] = useState<string>("");
     const [conditionSelected, setConditionSelected] = useState<string>("");
     const [fieldComparisonSelected, setFieldComparisonSelected] = useState<string>("");
-    const [filters, setFilters] = useState<FilterSelected[]>([]);
-
+    
     const handleCancel = () => {
         setFieldSelected("");
         setConditionSelected("");
@@ -67,13 +68,7 @@ export function FilterBuilder({ columns, transformDataKeys, onNewItem, onFilter 
 
     return (
         <div className="p-5 w-full shadow-lg">
-            <div className="grid grid-cols-3 gap-5 bg-white border-lg">
-                <Input
-                    onClick={() => { }}
-                    onChange={() => { }}
-                    placeholder="Buscar pela Descrição..."
-                    value=""
-                />
+            <div className="w-full flex items-center justify-between gap-5 bg-white border-lg">
                 <div className="w-full flex items-center justify-between">
                     <div className="w-full flex items-center justify-start gap-4">
                         <SelectTransition ButtonIcon={FaPlus} ButtonName="Filtro">

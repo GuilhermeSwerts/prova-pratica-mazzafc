@@ -11,7 +11,7 @@ namespace prova_pratica_mazzafc.Models.Request.Buyer
         public Guid? Identifier { get; set; }
         public string Name { get; set; }
         public string DocNumber { get; set; }
-        public string Statae { get; set; }
+        public string State { get; set; }
         public string City { get; set; }
     }
 }

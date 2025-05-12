@@ -12,7 +12,7 @@ namespace prova_pratica_mazzafc.Server.Controllers
     {
 
         [HttpGet]
-        public IActionResult AllMeats([FromQuery] string filters)
+        public IActionResult AllBuyer([FromQuery] string filters)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace prova_pratica_mazzafc.Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewMeat([FromBody] BuyerRequest request)
+        public IActionResult NewBuyer([FromBody] BuyerRequest request)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace prova_pratica_mazzafc.Server.Controllers
 
         [HttpGet]
         [Route("{identifier}")]
-        public IActionResult NewMeat([FromRoute] Guid identifier)
+        public IActionResult NewBuyer([FromRoute] Guid identifier)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace prova_pratica_mazzafc.Server.Controllers
 
         [HttpPut]
         [Route("{identifier}")]
-        public IActionResult ModifyMeat([FromBody] BuyerRequest request, [FromRoute] Guid identifier)
+        public IActionResult ModifyBuyer([FromBody] BuyerRequest request, [FromRoute] Guid identifier)
         {
             try
             {

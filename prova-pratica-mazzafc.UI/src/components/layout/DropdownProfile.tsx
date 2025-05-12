@@ -14,7 +14,6 @@ function DropdownProfile({ align = 'left' }: DropdownProfileProps) {
     const trigger = useRef<HTMLButtonElement>(null);
     const dropdown = useRef<HTMLDivElement>(null);
 
-    // Fecha ao clicar fora
     useEffect(() => {
         const clickHandler = (e: MouseEvent) => {
             const target = e.target as Node;
@@ -26,7 +25,6 @@ function DropdownProfile({ align = 'left' }: DropdownProfileProps) {
         return () => document.removeEventListener('click', clickHandler);
     }, [dropdownOpen]);
 
-    // Fecha com tecla ESC
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
             if (!dropdownOpen || e.key !== 'Escape') return;
@@ -71,18 +69,9 @@ function DropdownProfile({ align = 'left' }: DropdownProfileProps) {
                 >
                     <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
                         <div className="font-medium text-gray-800 dark:text-gray-100">Guilherme Swerts.</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400 italic">Financeiro</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 italic">Adm</div>
                     </div>
                     <ul>
-                        <li>
-                            <Link
-                                className="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
-                                to="/Settings/Minha%20Conta"
-                                onClick={() => setDropdownOpen(false)}
-                            >
-                                Settings
-                            </Link>
-                        </li>
                         <li>
                             <Link
                                 className="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
