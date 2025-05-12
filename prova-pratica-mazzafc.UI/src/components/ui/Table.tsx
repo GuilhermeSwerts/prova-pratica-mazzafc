@@ -10,6 +10,7 @@ export type GenericTableProps<T> = {
   className?: string;
   rowsPerPage?: number;
   enableActions?: boolean;
+  disabledEdit?: boolean;
   keyField?: keyof T;
   onEdit?: (key: T[keyof T]) => void;
   onDelete?: (key: T[keyof T]) => void;
@@ -24,6 +25,7 @@ export function GenericTable<T extends object>({
   keyField,
   onEdit,
   onDelete,
+  disabledEdit = false
 }: GenericTableProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -69,17 +71,17 @@ export function GenericTable<T extends object>({
               ))}
               {enableActions && keyField && (
                 <td className="px-4 py-2 text-sm text-gray-800 space-x-2">
-                  <button
+                  {!disabledEdit && <button
                     className="mr-5 cursor-pointer text-blue-600 hover:underline"
                     onClick={() => onEdit?.(row[keyField])}
                   >
-                    <FaPencil/>
-                  </button>
+                    <FaPencil />
+                  </button>}
                   <button
                     className="cursor-pointer text-red-600 hover:underline"
                     onClick={() => handleDelete(row[keyField])}
                   >
-                    <FaTrash/>
+                    <FaTrash />
                   </button>
                 </td>
               )}

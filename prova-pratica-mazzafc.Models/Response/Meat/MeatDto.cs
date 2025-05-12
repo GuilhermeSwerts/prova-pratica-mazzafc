@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace prova_pratica_mazzafc.Models.Response.Meat
 {
-    public class MeatDto
+    public class MeatDto : DtoBase
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Origin { get; set; }
         public int OriginId { get; set; }

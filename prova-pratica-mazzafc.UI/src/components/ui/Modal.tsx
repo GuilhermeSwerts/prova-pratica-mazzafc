@@ -9,6 +9,7 @@ export type ModalRef = {
 
 type ModalProps = {
     title?: string;
+    hiddenButton?: boolean;
     children: React.ReactNode;
     buttonTitle: string;
     funcNewItem: () => void;
@@ -57,7 +58,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
     render() {
         const { show, isEdit, identifier } = this.state;
-        const { children, buttonTitle, funcNewItem, funcEditItem } = this.props;
+        const { children, buttonTitle, funcNewItem, funcEditItem, hiddenButton = false } = this.props;
 
         return (
             <AnimatePresence>
@@ -86,9 +87,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
                             <div className="mt-4">{children}</div>
 
                             <div className="flex items-center justify-end mt-6">
-                                <Button variant="primary" onClick={e => isEdit ? funcEditItem(identifier) : funcNewItem()}>
+                                {!hiddenButton && <Button variant="primary" onClick={() => isEdit ? funcEditItem(identifier) : funcNewItem()}>
                                     {buttonTitle}
-                                </Button>
+                                </Button>}
                             </div>
                         </motion.div>
                     </motion.div>

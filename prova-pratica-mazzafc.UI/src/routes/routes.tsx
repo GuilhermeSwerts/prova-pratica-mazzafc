@@ -4,6 +4,7 @@ import { GiMeat } from "react-icons/gi";
 import Meat from "../pages/meat/Meat";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import Buyers from "../pages/buyers/Buyers";
+import Orders from "../pages/orders/Orders";
 
 export const routes = [
     {
@@ -24,7 +25,7 @@ export const routes = [
         pageName: 'Pedidos',
         Icon: FaClipboardList,
         path: 'orders',
-        component: <Layout>Pedidos</Layout>,
+        component: <Layout><Orders /></Layout>,
         isPage: true
     },
     {

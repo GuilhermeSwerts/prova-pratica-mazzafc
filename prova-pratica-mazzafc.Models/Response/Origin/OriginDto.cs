@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace prova_pratica_mazzafc.Models.Response.Origin
 {
-    public class OriginDto
+    public class OriginDto : DtoBase
     {
         public int Id { get; set; }
         public string Name { get; set; }

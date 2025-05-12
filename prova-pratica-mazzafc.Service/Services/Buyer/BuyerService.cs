@@ -28,12 +28,14 @@ namespace prova_pratica_mazzafc.Service.Services.Buyer
                     .Where(x => !x.HasDeleted)
                     .Select(x => new BuyerDto
                     {
+                        Id =x.Id,
                         Identifier = x.Identifier.ToString(),
                         Name = x.Name,
                         DocNumber = x.DocNumber,
                         DtRegister = x.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
                         State = x.Locations.First().State,
-                        City = x.Locations.First().City
+                        City = x.Locations.First().City,
+                        CreatedOn = DateTime.Parse(x.CreatedOn.ToString("yyyy-MM-dd")),
                     })
                     .ToList();
 
@@ -148,6 +150,7 @@ namespace prova_pratica_mazzafc.Service.Services.Buyer
                     RequestSuccess = true,
                     ResponseData = new BuyerDto
                     {
+                        Id = buyer.Id,
                         Identifier = buyer.Identifier.ToString(),
                         Name = buyer.Name,
                         DocNumber = buyer.DocNumber,

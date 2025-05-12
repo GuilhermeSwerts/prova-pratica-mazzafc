@@ -26,6 +26,7 @@ namespace prova_pratica_mazzafc.Service.Services.Origin
                         Id = x.Id,
                         Name = x.Description,
                         DtCreated = x.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
+                        CreatedOn = DateTime.Parse(x.CreatedOn.ToString("yyyy-MM-dd")),
                     }).ToList();
                     
                 return new ApiResponse<List<OriginDto>>

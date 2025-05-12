@@ -27,6 +27,7 @@ namespace prova_pratica_mazzafc.Service.Services.Coin
                         Name = x.Name,
                         Prefix = x.Prefix,
                         DtCreated = x.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
+                        CreatedOn = DateTime.Parse(x.CreatedOn.ToString("yyyy-MM-dd")),
                     }).ToList();
 
                 return new ApiResponse<List<CoinDto>>

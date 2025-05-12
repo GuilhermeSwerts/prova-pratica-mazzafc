@@ -2,6 +2,7 @@
 using prova_pratica_mazzafc.Util.ExtensionsMethods;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
@@ -49,23 +50,55 @@ namespace prova_pratica_mazzafc.Util.Filter
             var list = new List<Expression<Func<T, bool>>>();
             foreach (var filter in filters)
             {
+                filter.FieldKey = filter.FieldKey switch
+                {
+                    "dtRegister" => "CreatedOn",
+                    _ => filter.FieldKey
+                };
+
                 var parameter = Expression.Parameter(typeof(T), "x");
                 var property = Expression.Property(parameter, filter.FieldKey);
                 var constant = Expression.Constant(Convert.ChangeType(filter.Comparison, property.Type));
 
                 Expression comparison;
-                if (filter.Condition == EFilterCondition.Equals.GetDescription())
-                    comparison = Expression.Equal(property, constant);
-                else if (filter.Condition == EFilterCondition.Greater_Than.GetDescription())
-                    comparison = Expression.GreaterThan(property, constant);
-                else if (filter.Condition == EFilterCondition.Less_Than.GetDescription())
-                    comparison = Expression.LessThan(property, constant);
-                else if (filter.Condition == EFilterCondition.Greater_Than_Or_Equal_To.GetDescription())
-                    comparison = Expression.GreaterThanOrEqual(property, constant);
-                else if (filter.Condition == EFilterCondition.Less_Than_Or_Equal_To.GetDescription())
-                    comparison = Expression.LessThanOrEqual(property, constant);
+                if (filter.FieldKey.Equals("CreatedOn"))
+                {
+                    var dateFormat = "dd/MM/yyyy";
+                    var culture = CultureInfo.InvariantCulture;
+
+                    if (!DateTime.TryParseExact(filter.Comparison, dateFormat, culture, DateTimeStyles.None, out DateTime parsedDate))
+                        throw new FormatException($"Valor de data inválido: {filter.Comparison}");
+
+                    constant = Expression.Constant(parsedDate, typeof(DateTime));
+
+                    if (filter.Condition == EFilterCondition.Equals.GetDescription())
+                        comparison = Expression.Equal(property, constant);
+                    else if (filter.Condition == EFilterCondition.Greater_Than.GetDescription())
+                        comparison = Expression.GreaterThan(property, constant);
+                    else if (filter.Condition == EFilterCondition.Less_Than.GetDescription())
+                        comparison = Expression.LessThan(property, constant);
+                    else if (filter.Condition == EFilterCondition.Greater_Than_Or_Equal_To.GetDescription())
+                        comparison = Expression.GreaterThanOrEqual(property, constant);
+                    else if (filter.Condition == EFilterCondition.Less_Than_Or_Equal_To.GetDescription())
+                        comparison = Expression.LessThanOrEqual(property, constant);
+                    else
+                        throw new NotSupportedException($"Condição de filtro não suportada para DateTime: {filter.Condition}");
+                }
                 else
-                    throw new NotSupportedException($"Condição de filtro não suportada: {filter.Condition}");
+                {
+                    if (filter.Condition == EFilterCondition.Equals.GetDescription())
+                        comparison = Expression.Equal(property, constant);
+                    else if (filter.Condition == EFilterCondition.Greater_Than.GetDescription())
+                        comparison = Expression.GreaterThan(property, constant);
+                    else if (filter.Condition == EFilterCondition.Less_Than.GetDescription())
+                        comparison = Expression.LessThan(property, constant);
+                    else if (filter.Condition == EFilterCondition.Greater_Than_Or_Equal_To.GetDescription())
+                        comparison = Expression.GreaterThanOrEqual(property, constant);
+                    else if (filter.Condition == EFilterCondition.Less_Than_Or_Equal_To.GetDescription())
+                        comparison = Expression.LessThanOrEqual(property, constant);
+                    else
+                        throw new NotSupportedException($"Condição de filtro não suportada: {filter.Condition}");
+                }
 
                 var lambda = Expression.Lambda<Func<T, bool>>(comparison, parameter);
                 list.Add(lambda);
@@ -86,7 +119,7 @@ namespace prova_pratica_mazzafc.Util.Filter
             catch (Exception)
             {
                 throw;
-            }   
+            }
         }
     }
 }

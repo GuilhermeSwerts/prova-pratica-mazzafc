@@ -1,4 +1,5 @@
 export type Buyer = {
+    id: number;
     identifier: string;
     name: string;
     docNumber: string;

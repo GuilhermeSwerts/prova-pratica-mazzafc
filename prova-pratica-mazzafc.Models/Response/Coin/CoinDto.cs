@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace prova_pratica_mazzafc.Models.Response.Coin
 {
-    public class CoinDto
+    public class CoinDto : DtoBase
     {
         public int Id { get; set; }
         public string Name { get; set; }

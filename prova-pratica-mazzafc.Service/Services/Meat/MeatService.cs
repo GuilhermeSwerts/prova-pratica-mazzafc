@@ -29,11 +29,13 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                      .Where(x => !x.HasDeleted && !x.Meat.HasDeleted && !x.Origin.HasDeleted)
                      .Select(x => new MeatDto
                      {
+                         Id = x.Id,
                          DtRegister = x.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
                          Identifier = x.Identifier.ToString(),
                          Name = x.Meat.Description,
                          Origin = x.Origin.Description,
                          OriginId = x.Origin.Id,
+                         CreatedOn = DateTime.Parse(x.CreatedOn.ToString("yyyy-MM-dd")),
                      })
                      .ToList();
 
@@ -157,6 +159,7 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                     RequestSuccess = true,
                     ResponseData = new MeatDto
                     {
+                        Id = meat.Id,
                         DtRegister = meat.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"),
                         Identifier = meat.Identifier.ToString(),
                         Name = meat.Meat.Description,

@@ -5,4 +5,6 @@ export type Meats = {
     originId: number;
     identifier: string;
     dtRegister: string;
+    quantity?: number;
+    price?: string;
 };

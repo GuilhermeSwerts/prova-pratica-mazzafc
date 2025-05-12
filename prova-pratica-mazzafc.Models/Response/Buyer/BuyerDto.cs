@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace prova_pratica_mazzafc.Models.Response.Buyer
 {
-    public class BuyerDto
+    public class BuyerDto : DtoBase
     {
         public string Identifier { get; set; }
         public string Name { get; set; }
@@ -14,5 +14,6 @@ namespace prova_pratica_mazzafc.Models.Response.Buyer
         public string DtRegister { get; set; }
         public string State { get; set; }
         public string City { get; set; }
+        public int Id { get; set; }
     }
 }
