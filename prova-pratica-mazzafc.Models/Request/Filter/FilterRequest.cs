@@ -10,7 +10,7 @@ namespace prova_pratica_mazzafc.Models.Request.Filter
     public class FilterRequest
     {
         public string FieldKey { get; set; }
-        public EFilterCondition Condition { get; set; }
+        public string Condition { get; set; }
         public string Comparison { get; set; }
     }
 }

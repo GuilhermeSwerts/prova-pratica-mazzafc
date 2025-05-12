@@ -11,12 +11,15 @@ using prova_pratica_mazzafc.Models.Response.Buyer;
 using prova_pratica_mazzafc.Models.Request.Buyer;
 using prova_pratica_mazzafc.Util.ExtensionsMethods;
 using Microsoft.EntityFrameworkCore;
+using prova_pratica_mazzafc.Models.Request.Filter;
+using prova_pratica_mazzafc.Models.Response.Meat;
+using prova_pratica_mazzafc.Util.Filter;
 
 namespace prova_pratica_mazzafc.Service.Services.Buyer
 {
     public class BuyerService(SqlContext _sqlContext) : IBuyerService
     {
-        public ApiResponse<List<BuyerDto>> AllBuyers()
+        public ApiResponse<List<BuyerDto>> AllBuyers(List<FilterRequest> filters)
         {
             try
             {
@@ -33,6 +36,12 @@ namespace prova_pratica_mazzafc.Service.Services.Buyer
                         City = x.Locations.First().City
                     })
                     .ToList();
+
+                if (filters.Count > 0)
+                {
+                    var filter = FilterUtil.GetFiltro<BuyerDto>(filters).Compile();
+                    buyers = buyers.Where(filter).ToList();
+                }
 
                 return new ApiResponse<List<BuyerDto>>
                 {

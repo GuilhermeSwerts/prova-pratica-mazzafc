@@ -1,4 +1,5 @@
 ﻿using prova_pratica_mazzafc.Models.Request.Buyer;
+using prova_pratica_mazzafc.Models.Request.Filter;
 using prova_pratica_mazzafc.Models.Response;
 using prova_pratica_mazzafc.Models.Response.Buyer;
 using System;
@@ -11,7 +12,7 @@ namespace prova_pratica_mazzafc.Service.Interfaces.Buyer
 {
     public interface IBuyerService
     {
-        ApiResponse<List<BuyerDto>> AllBuyers();
+        ApiResponse<List<BuyerDto>> AllBuyers(List<FilterRequest> filters);
         ApiResponse<BuyerDto> BuyerByIdentifier(Guid identifier);
         ApiResponse<bool> NewBuyer(BuyerRequest request, int userId);
         ApiResponse<bool> ModifyBuyer(BuyerRequest request, int userId);

@@ -20,8 +20,8 @@ export const NewMeat = (data: IMeat, funcResponse: Function) => {
     })
 }
 
-export const AllMeats = (funcResponse: (data: Meats[]) => void) => {
-    api.get<Meats[]>(`api/meat/`, response => {
+export const AllMeats = (params: string, funcResponse: (data: Meats[]) => void) => {
+    api.get<Meats[]>(`api/meat?${params}`, response => {
         funcResponse && funcResponse(response);
     })
 }

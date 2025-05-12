@@ -12,12 +12,14 @@ using prova_pratica_mazzafc.Service.Interfaces.Order;
 using prova_pratica_mazzafc.Models.Request.Order;
 using prova_pratica_mazzafc.Util.ExtensionsMethods;
 using Microsoft.EntityFrameworkCore;
+using prova_pratica_mazzafc.Models.Request.Filter;
+using prova_pratica_mazzafc.Util.Filter;
 
 namespace prova_pratica_mazzafc.Service.Services.Order
 {
     public class OrderService(SqlContext _sqlContext) : IOrderService
     {
-        public ApiResponse<List<OrderDto>> AllOrders()
+        public ApiResponse<List<OrderDto>> AllOrders(List<FilterRequest> filters)
         {
             try
             {
@@ -49,6 +51,12 @@ namespace prova_pratica_mazzafc.Service.Services.Order
                             .ToList()
                     })
                     .ToList();
+
+                if (filters.Count > 0)
+                {
+                    var filter = FilterUtil.GetFiltro<OrderDto>(filters).Compile();
+                    orders = orders.Where(filter).ToList();
+                }
 
                 return new ApiResponse<List<OrderDto>>
                 {

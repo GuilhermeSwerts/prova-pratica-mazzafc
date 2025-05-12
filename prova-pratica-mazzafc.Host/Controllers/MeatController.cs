@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using prova_pratica_mazzafc.Models.Request.Filter;
 using prova_pratica_mazzafc.Models.Request.Meat;
 using prova_pratica_mazzafc.Service.Interfaces.Meat;
 
@@ -8,11 +10,19 @@ namespace prova_pratica_mazzafc.Server.Controllers
     public class MeatController(IMeatService _meatService) : JwtController
     {
         [HttpGet]
-        public IActionResult AllMeats()
+        public IActionResult AllMeats([FromQuery] string filters)
         {
             try
             {
-                var result = _meatService.AllMeats();
+                var paramsFilter = new List<FilterRequest>();
+
+                if(!string.IsNullOrEmpty(filters))
+                {
+                    paramsFilter = JsonConvert.DeserializeObject<List<FilterRequest>>(filters) 
+                        ?? [];
+                }
+
+                var result = _meatService.AllMeats(paramsFilter);
 
                 return Ok(result);
             }

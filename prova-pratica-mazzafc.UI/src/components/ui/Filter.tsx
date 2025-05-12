@@ -94,7 +94,7 @@ export function FilterBuilder({ columns, transformDataKeys, onNewItem, onFilter 
                                     value={conditionSelected}
                                     label="Selecione uma condição"
                                 >
-                                    <option value="=">Igual</option>
+                                    <option value="==">Igual</option>
                                     {(isNumber(transformDataKeys[fieldSelected] && transformDataKeys[fieldSelected][0]) || fieldSelected.startsWith("dt")) && <option value=">">Maior que</option>}
                                     {(isNumber(transformDataKeys[fieldSelected] && transformDataKeys[fieldSelected][0]) || fieldSelected.startsWith("dt")) && <option value="<">Menor que</option>}
                                     {(isNumber(transformDataKeys[fieldSelected] && transformDataKeys[fieldSelected][0]) || fieldSelected.startsWith("dt")) && <option value=">=">Maior ou igual à</option>}
@@ -139,7 +139,7 @@ export function FilterBuilder({ columns, transformDataKeys, onNewItem, onFilter 
                         <Button onClick={() => { setFilters([]) }} variant="outline">
                             Limpar
                         </Button>
-                        <Button onClick={() => { onFilter(filters) }} variant="primary">
+                        <Button onClick={() => onFilter(filters)} variant="primary">
                             Buscar
                         </Button>
                     </div>

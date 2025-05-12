@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using prova_pratica_mazzafc.Models.Request.Buyer;
+using prova_pratica_mazzafc.Models.Request.Filter;
 using prova_pratica_mazzafc.Models.Request.Meat;
 using prova_pratica_mazzafc.Service.Interfaces.Buyer;
 
@@ -10,11 +12,19 @@ namespace prova_pratica_mazzafc.Server.Controllers
     {
 
         [HttpGet]
-        public IActionResult AllMeats()
+        public IActionResult AllMeats([FromQuery] string filters)
         {
             try
             {
-                var result = _buyerService.AllBuyers();
+                var paramsFilter = new List<FilterRequest>();
+
+                if (!string.IsNullOrEmpty(filters))
+                {
+                    paramsFilter = JsonConvert.DeserializeObject<List<FilterRequest>>(filters)
+                        ?? [];
+                }
+
+                var result = _buyerService.AllBuyers(paramsFilter);
 
                 return Ok(result);
             }

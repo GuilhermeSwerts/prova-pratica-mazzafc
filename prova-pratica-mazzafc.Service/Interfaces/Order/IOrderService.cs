@@ -1,4 +1,5 @@
-﻿using prova_pratica_mazzafc.Models.Request.Order;
+﻿using prova_pratica_mazzafc.Models.Request.Filter;
+using prova_pratica_mazzafc.Models.Request.Order;
 using prova_pratica_mazzafc.Models.Response;
 using prova_pratica_mazzafc.Models.Response.Order;
 using System;
@@ -11,7 +12,7 @@ namespace prova_pratica_mazzafc.Service.Interfaces.Order
 {
     public interface IOrderService
     {
-        ApiResponse<List<OrderDto>> AllOrders();
+        ApiResponse<List<OrderDto>> AllOrders(List<FilterRequest> filters);
         ApiResponse<OrderDto> OrderByIdentifier(Guid identifier);
         ApiResponse<bool> NewOrder(OrderRequest request, int userId);
         ApiResponse<bool> DeleteOrder(Guid identifier, int userId);

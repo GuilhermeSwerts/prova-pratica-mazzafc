@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using prova_pratica_mazzafc.Models.Request.Filter;
 using prova_pratica_mazzafc.Models.Request.Meat;
 using prova_pratica_mazzafc.Models.Response;
 using prova_pratica_mazzafc.Models.Response.Buyer;
@@ -7,20 +8,24 @@ using prova_pratica_mazzafc.Repository;
 using prova_pratica_mazzafc.Repository.Map;
 using prova_pratica_mazzafc.Service.Interfaces.Meat;
 using prova_pratica_mazzafc.Util.ExtensionsMethods;
+using prova_pratica_mazzafc.Util.Filter;
 using System;
+using System.Linq.Expressions;
+using static prova_pratica_mazzafc.Models.Enums.FilterEnum;
 
 
 namespace prova_pratica_mazzafc.Service.Services.Meat
 {
     public class MeatService(SqlContext _sqlContext) : IMeatService
     {
-        public ApiResponse<List<MeatDto>> AllMeats()
+
+        public ApiResponse<List<MeatDto>> AllMeats(List<FilterRequest> filters)
         {
             try
             {
                 var meats = _sqlContext.MeatsOrigins
-                     .Include(x=> x.Origin)
-                     .Include(x=> x.Meat)
+                     .Include(x => x.Origin)
+                     .Include(x => x.Meat)
                      .Where(x => !x.HasDeleted && !x.Meat.HasDeleted && !x.Origin.HasDeleted)
                      .Select(x => new MeatDto
                      {
@@ -31,6 +36,12 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                          OriginId = x.Origin.Id,
                      })
                      .ToList();
+
+                if (filters.Count > 0)
+                {
+                    var filter = FilterUtil.GetFiltro<MeatDto>(filters).Compile();
+                    meats = meats.Where(filter).ToList();
+                }
 
                 return new ApiResponse<List<MeatDto>>
                 {
@@ -63,10 +74,10 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                     Description = request.Description,
                 };
 
-                if(_sqlContext.Meats.Any(x => x.Description == request.Description && !x.HasDeleted))
+                if (_sqlContext.Meats.Any(x => x.Description == request.Description && !x.HasDeleted))
                 {
                     meet = _sqlContext.Meats.First(x => x.Description == request.Description && !x.HasDeleted);
-                    if(_sqlContext.MeatsOrigins.Any(x=> x.MeatId == meet.Id && x.OriginId == request.Origin))
+                    if (_sqlContext.MeatsOrigins.Any(x => x.MeatId == meet.Id && x.OriginId == request.Origin))
                     {
                         return new ApiResponse<bool>
                         {
@@ -89,8 +100,8 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                 }
                 else
                 {
-                    _sqlContext.Insert(meet,userId);
-                    
+                    _sqlContext.Insert(meet, userId);
+
                     var meatOrigin = new MeatOriginMap
                     {
                         OriginId = request.Origin,
@@ -221,9 +232,9 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
             using var tran = _sqlContext.Database.BeginTransaction();
             try
             {
-                var meat = _sqlContext.GetByIdentifier<MeatOriginMap>(identifier,x=> x.Origin,x=> x.Meat);
-                
-                if(_sqlContext.OrderMeats.Any(x=> x.MeatOriginId == meat.Id && !x.HasDeleted))
+                var meat = _sqlContext.GetByIdentifier<MeatOriginMap>(identifier, x => x.Origin, x => x.Meat);
+
+                if (_sqlContext.OrderMeats.Any(x => x.MeatOriginId == meat.Id && !x.HasDeleted))
                 {
                     tran.Rollback();
                     return new ApiResponse<bool>
@@ -238,7 +249,7 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                     };
                 }
 
-                if(_sqlContext.MeatsOrigins.Count(x=> x.MeatId == meat.Meat.Id && !x.HasDeleted) == 1)
+                if (_sqlContext.MeatsOrigins.Count(x => x.MeatId == meat.Meat.Id && !x.HasDeleted) == 1)
                 {
                     meat.Meat.HasDeleted = true;
                     meat.Meat.DeletedOn = DateTime.Now;
@@ -246,7 +257,7 @@ namespace prova_pratica_mazzafc.Service.Services.Meat
                 }
 
                 _sqlContext.SoftDelete(meat, userId);
-              
+
                 tran.Commit();
                 return new ApiResponse<bool>
                 {

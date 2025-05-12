@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using prova_pratica_mazzafc.Models.Request.Buyer;
+using prova_pratica_mazzafc.Models.Request.Filter;
 using prova_pratica_mazzafc.Models.Request.Order;
 using prova_pratica_mazzafc.Service.Interfaces.Buyer;
 using prova_pratica_mazzafc.Service.Interfaces.Order;
@@ -10,11 +12,19 @@ namespace prova_pratica_mazzafc.Server.Controllers
     public class OrderController(IOrderService _orderService) : JwtController
     {
         [HttpGet]
-        public IActionResult AllOrders()
+        public IActionResult AllOrders([FromQuery] string filters)
         {
             try
             {
-                var result = _orderService.AllOrders();
+                var paramsFilter = new List<FilterRequest>();
+
+                if (!string.IsNullOrEmpty(filters))
+                {
+                    paramsFilter = JsonConvert.DeserializeObject<List<FilterRequest>>(filters)
+                        ?? [];
+                }
+
+                var result = _orderService.AllOrders(paramsFilter);
                 return Ok(result);
             }
             catch (Exception ex)

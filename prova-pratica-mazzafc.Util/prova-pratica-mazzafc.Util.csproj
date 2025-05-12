@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\prova-pratica-mazzafc.Models\prova-pratica-mazzafc.Models.csproj" />
     <ProjectReference Include="..\prova-pratica-mazzafc.Repository\prova-pratica-mazzafc.Repository.csproj" />
   </ItemGroup>
 
