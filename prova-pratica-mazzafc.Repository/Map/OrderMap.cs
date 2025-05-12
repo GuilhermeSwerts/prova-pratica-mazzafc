@@ -19,6 +19,9 @@ namespace prova_pratica_mazzafc.Repository.Map
         [Column("tyccod")]
         public int TypeCoinId { get; set; }
 
+        [Column("ordtotal")]
+        public decimal Total { get; set; }
+
         public TypeCoinMap TypeCoin { get; set; }
         public ICollection<OrderMeatMap> OrderMeats { get; set; }
     }
