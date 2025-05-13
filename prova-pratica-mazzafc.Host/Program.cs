@@ -1,15 +1,31 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using prova_pratica_mazzafc.Ioc;
 using prova_pratica_mazzafc.Repository;
+using prova_pratica_mazzafc.Repository.Map;
+using prova_pratica_mazzafc.Server.Middleware;
+using prova_pratica_mazzafc.Server.Validators.Buyer;
+using prova_pratica_mazzafc.Server.Validators.Meat;
+using prova_pratica_mazzafc.Server.Validators.Order;
+using prova_pratica_mazzafc.Server.Validators.User;
 using prova_pratica_mazzafc.Util.Auth;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(fv =>
+    {
+        fv.RegisterValidatorsFromAssemblyContaining<BuyerRequestValidator>();
+        fv.RegisterValidatorsFromAssemblyContaining<MeatRequestValidator>();
+        fv.RegisterValidatorsFromAssemblyContaining<OrderMeatOriginRequestValidator>();
+        fv.RegisterValidatorsFromAssemblyContaining<OrderRequestValidator>();
+        fv.RegisterValidatorsFromAssemblyContaining<UserLoginRequestValidator>();
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -65,7 +81,7 @@ builder.Services.AddSwaggerGen(options =>
 
 
 var app = builder.Build();
-
+app.UseMiddleware<LogMiddleware>();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 

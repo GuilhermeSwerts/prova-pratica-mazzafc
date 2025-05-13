@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using prova_pratica_mazzafc.Repository.Map;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace prova_pratica_mazzafc.Repository
 {
@@ -94,6 +90,24 @@ namespace prova_pratica_mazzafc.Repository
         public DbSet<BuyerLocationMap> BuyerLocations { get; set; }
 
         public DbSet<LogError> LogError { get; set; }
+
+        #endregion
+
+        #region PUBLIC METHODS
+
+        public static SqlContext GetContextConnection()
+        {
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
+            var options = new DbContextOptionsBuilder<SqlContext>()
+                .UseSqlServer(configuration.GetConnectionString("SqlServerConnection"))
+                .Options;
+
+            return new SqlContext(options);
+        }
 
         #endregion
     }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace prova_pratica_mazzafc.Server.Controllers
 {
-
+    [ApiController]
     [Authorize]
     public class JwtController : Controller
     {
