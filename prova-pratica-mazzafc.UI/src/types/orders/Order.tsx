@@ -1,4 +1,5 @@
 import { Meats } from '../Meat/Meat'
+
 export type Order = {
     identifier?: string,
     buyerId: number,
@@ -11,4 +12,8 @@ export type Order = {
     meats: Meats[];
     quantity: number;
     quantityTotal: number;
+}
+
+export type OrderCurrentQuote = Order & {
+    totalCurrentQuote: string,
 }

@@ -12,7 +12,7 @@ namespace prova_pratica_mazzafc.Server.Controllers
     {
 
         [HttpGet]
-        public IActionResult AllBuyer([FromQuery] string filters)
+        public IActionResult AllBuyer([FromQuery] string filters = "[]")
         {
             try
             {

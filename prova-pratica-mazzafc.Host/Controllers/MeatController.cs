@@ -10,7 +10,7 @@ namespace prova_pratica_mazzafc.Server.Controllers
     public class MeatController(IMeatService _meatService) : JwtController
     {
         [HttpGet]
-        public IActionResult AllMeats([FromQuery] string filters)
+        public IActionResult AllMeats([FromQuery] string filters = "[]")
         {
             try
             {

@@ -2,9 +2,9 @@
 
 insert into[dbo].tyccoin(tycname,tycprefix,identifier,createduser,createdon)
 values 
-	('Real','R$',NEWID(),1,GETDATE()),
-	('Dólar','$',NEWID(),1,GETDATE()),
-	('Euro','€',NEWID(),1,GETDATE())
+	('BRL','R$',NEWID(),1,GETDATE()),
+	('USD','$',NEWID(),1,GETDATE()),
+	('EUR','€',NEWID(),1,GETDATE())
 
 Insert into [dbo].oriorigin(oridescription,identifier,createdon,createduser)
 values 

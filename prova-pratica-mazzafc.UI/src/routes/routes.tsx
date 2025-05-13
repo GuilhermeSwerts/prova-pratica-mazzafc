@@ -6,6 +6,7 @@ import Buyers from "../pages/buyers/Buyers";
 import Orders from "../pages/orders/Orders";
 import Login from "../pages/login/Login";
 import Doc from "../pages/doc/Doc";
+import Teste from "../pages/Teste/Teste";
 
 export const routes = [
     {
@@ -40,14 +41,14 @@ export const routes = [
         pageName: '',
         Icon: FaClipboardList,
         path: 'doc',
-        component: <Layout><Doc/></Layout>,
+        component: <Layout><Doc /></Layout>,
         isPage: false
     },
     {
         pageName: '',
         Icon: FaClipboardList,
-        path: 'faq',
-        component: <Layout>FAQ</Layout>,
+        path: 'teste',
+        component: <Teste/>,
         isPage: false
     },
 ]

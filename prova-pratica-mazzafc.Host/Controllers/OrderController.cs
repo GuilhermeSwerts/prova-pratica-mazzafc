@@ -12,7 +12,7 @@ namespace prova_pratica_mazzafc.Server.Controllers
     public class OrderController(IOrderService _orderService) : JwtController
     {
         [HttpGet]
-        public IActionResult AllOrders([FromQuery] string filters)
+        public IActionResult AllOrders([FromQuery] string filters = "[]")
         {
             try
             {
