@@ -1,6 +1,6 @@
 import { Meats } from '../Meat/Meat'
 export type Order = {
-    identifier: string,
+    identifier?: string,
     buyerId: number,
     total: string,
     buyerName: string,

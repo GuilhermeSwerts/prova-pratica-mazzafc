@@ -1,5 +1,5 @@
 export interface IOrder {
-    identifier: string;
+    identifier?: string;
     buyerId: Number;
     typeCoinId: Number;
     meatOrigins: IOrderMeat[];

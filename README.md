@@ -95,6 +95,7 @@ Após realizar todas as verificações e configurações:
 
 ## Observações
 
+- Caso o Front não tenha inicializado, entre na pasta `cd ~/prova-pratica-mazzafc/prova-pratica-mazzafc.UI` e digite via prompt `npm run dev`
 - Certifique-se de que o SQL Server esteja rodando corretamente.
 - Garanta que os scripts do banco foram executados com sucesso antes de iniciar a API.
 

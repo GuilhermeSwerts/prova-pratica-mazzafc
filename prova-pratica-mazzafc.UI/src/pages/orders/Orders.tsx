@@ -115,13 +115,17 @@ function Orders() {
         })
 
         const data: IOrder = {
-            identifier: "",
+            identifier: "00000000-0000-0000-0000-000000000000",
             buyerId: buyerSelected,
             typeCoinId: coinSelected?.id ?? 0,
             meatOrigins: orderMeat
         }
         NewOrder(data, () => {
             onLoadPage();
+            modalRef.current?.onClose();
+            setBuyerSelected(0)
+            setCoinSelected(null)
+            setMeatsSelecteds([])
             Alert('Pedido cadastrado com sucesso!');
         })
     }

@@ -1,6 +1,4 @@
-
-create database dbMazzaFc;
-use dbMazzaFc;
+﻿use dbMazzaFc;
 
 CREATE TABLE [usuuser] (
     [usucod] INT IDENTITY(1,1) PRIMARY KEY,
