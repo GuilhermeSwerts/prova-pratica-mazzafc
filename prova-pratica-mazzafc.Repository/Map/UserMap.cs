@@ -15,10 +15,13 @@ namespace prova_pratica_mazzafc.Repository.Map
         [Column("usucod")]
         public int Id { get; set; }
 
-        [Column("usuusername")]
+        [Column("usuname")]
         public string Name { get; set; }
 
-        [Column("userpassword")]
+        [Column("usuemail")]
+        public string Email { get; set; }
+
+        [Column("usupassword")]
         public string Password { get; set; }
     }
 

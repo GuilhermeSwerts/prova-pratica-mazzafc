@@ -10,6 +10,7 @@ type InputProps = {
     placeholder?: string;
     type?: InputTypes;
     label?: string;
+    required?: boolean;
     min?: number | null;
     max?: number | null;
 };
@@ -37,6 +38,7 @@ export const Input: React.FC<InputProps> = ({
     placeholder = '',
     type = 'text',
     label = "",
+    required = false
 }) => {
     return (
         <div className="flex flex-col space-y-1">
@@ -44,6 +46,7 @@ export const Input: React.FC<InputProps> = ({
                 {label}
             </label>}
             <input
+                required={required}
                 onChange={onChange}
                 type={type}
                 value={value}

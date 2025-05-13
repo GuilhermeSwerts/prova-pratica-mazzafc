@@ -84,7 +84,7 @@ namespace prova_pratica_mazzafc.Repository
 
         public DbSet<OriginMap> Origins { get; set; }
         public DbSet<TypeCoinMap> TypesCoins { get; set; }
-
+        public DbSet<UserMap> Users { get; set; }
         public DbSet<OrderMap> Orders { get; set; }
         public DbSet<MeatMap> Meats { get; set; }
         public DbSet<BuyerMap> Buyers { get; set; }

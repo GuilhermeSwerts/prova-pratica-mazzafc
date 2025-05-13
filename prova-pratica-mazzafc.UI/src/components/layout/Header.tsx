@@ -3,6 +3,7 @@ import Help from './DropdownHelp';
 import UserMenu from './DropdownProfile';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
+import { useUser } from '../../contexts/UserContext';
 
 type headerProps = {
     sidebarOpen: boolean,

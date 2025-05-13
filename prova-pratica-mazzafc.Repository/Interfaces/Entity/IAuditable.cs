@@ -9,7 +9,7 @@ namespace prova_pratica_mazzafc.Repository.Interfaces.Entity
     public interface IAuditable
     {
         DateTime CreatedOn { get; set; }
-        int CreatedUser { get; set; }
+        int? CreatedUser { get; set; }
         DateTime? ModifyOn { get; set; }
         int? ModifyUser { get; set; }
     }

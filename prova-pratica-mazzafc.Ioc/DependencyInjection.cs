@@ -4,11 +4,13 @@ using prova_pratica_mazzafc.Service.Interfaces.Coin;
 using prova_pratica_mazzafc.Service.Interfaces.Meat;
 using prova_pratica_mazzafc.Service.Interfaces.Order;
 using prova_pratica_mazzafc.Service.Interfaces.Origin;
+using prova_pratica_mazzafc.Service.Interfaces.User;
 using prova_pratica_mazzafc.Service.Services.Buyer;
 using prova_pratica_mazzafc.Service.Services.Coin;
 using prova_pratica_mazzafc.Service.Services.Meat;
 using prova_pratica_mazzafc.Service.Services.Order;
 using prova_pratica_mazzafc.Service.Services.Origin;
+using prova_pratica_mazzafc.Service.Services.User;
 
 namespace prova_pratica_mazzafc.Ioc
 {
@@ -21,6 +23,7 @@ namespace prova_pratica_mazzafc.Ioc
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IOriginService, OriginService>();
             services.AddScoped<ICoinService, CoinService>();
+            services.AddScoped<IUserService, UserService>();
             
             return services;
         }

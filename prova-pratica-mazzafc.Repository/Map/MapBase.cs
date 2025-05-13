@@ -11,7 +11,7 @@ namespace prova_pratica_mazzafc.Repository.Map
     {
         public int Id { get; set; }
         public Guid Identifier { get; set; } = Guid.NewGuid();
-        public int CreatedUser { get; set; }
+        public int? CreatedUser { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime? ModifyOn { get; set; }
         public int? ModifyUser { get; set; }

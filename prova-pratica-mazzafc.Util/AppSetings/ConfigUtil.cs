@@ -10,7 +10,7 @@ namespace prova_pratica_mazzafc.Util.AppSetings
     public class ConfigUtil
     {
         private readonly static IConfiguration _configuration;
-        public static string GetKey(string key)
+        public static string GetByKey(string key)
             => _configuration[key]?.ToString() ?? throw new Exception(key + " não definida");
         static ConfigUtil()
         {

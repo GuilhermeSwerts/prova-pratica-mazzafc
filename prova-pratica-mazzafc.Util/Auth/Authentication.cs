@@ -16,16 +16,17 @@ namespace prova_pratica_mazzafc.Util.Auth
 
         public static class Settings
         {
-            public static string Secret = ConfigUtil.GetKey("BearerKey");
+            public static string Secret = ConfigUtil.GetByKey("BearerKey");
         }
 
-        public static string GenerateToken(int userId)
+        public static string GenerateToken(int userId,string name)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
 
             List<Claim> claimsIdentity = new()
             {
+               new Claim(ClaimTypes.Name,name),
                new Claim(ClaimTypes.UserData,userId.ToString()),
             };
 

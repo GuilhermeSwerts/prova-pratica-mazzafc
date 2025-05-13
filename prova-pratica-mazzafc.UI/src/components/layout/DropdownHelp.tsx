@@ -79,16 +79,6 @@ function DropdownHelp({ align = 'left' }: DropdownHelpProps) {
                                 <a href='/'>Documentação</a>
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                className="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
-                                to="/faq"
-                                onClick={() => setDropdownOpen(false)}
-                            >
-                                <FaQuestion className="text-2xl fill-current text-violet-500 shrink-0 mr-2" />
-                                <span>FAQ</span>
-                            </Link>
-                        </li>
                     </ul>
                 </div>
             </Transition>

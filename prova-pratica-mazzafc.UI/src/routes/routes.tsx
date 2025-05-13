@@ -1,12 +1,20 @@
-import { FaClipboardList, FaUserTag } from "react-icons/fa";
+import { FaClipboardList, FaUser, FaUserTag } from "react-icons/fa";
 import Layout from "../components/layout/Layout";
 import { GiMeat } from "react-icons/gi";
 import Meat from "../pages/meat/Meat";
-import { MdOutlineRestaurantMenu } from "react-icons/md";
 import Buyers from "../pages/buyers/Buyers";
 import Orders from "../pages/orders/Orders";
+import Login from "../pages/login/Login";
+import Doc from "../pages/doc/Doc";
 
 export const routes = [
+    {
+        pageName: 'Login',
+        Icon: FaUser,
+        path: 'login',
+        component: <Login />,
+        isPage: false
+    },
     {
         pageName: 'Carnes',
         Icon: GiMeat,
@@ -32,7 +40,7 @@ export const routes = [
         pageName: '',
         Icon: FaClipboardList,
         path: 'doc',
-        component: <Layout>Doc</Layout>,
+        component: <Layout><Doc/></Layout>,
         isPage: false
     },
     {

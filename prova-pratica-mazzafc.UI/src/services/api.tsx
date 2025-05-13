@@ -27,7 +27,6 @@ export default class Api {
         funcResult?: (data: T) => void
     ): void => {
         setGlobalLoader(true);
-
         apiCall
             .then((response) => {
                 if (response.data.requestSuccess) {
@@ -41,7 +40,7 @@ export default class Api {
             })
             .catch((err: AxiosError) => {
                 console.error({ error: err });
-
+                debugger
                 if (err.response?.status === 401) {
                     window.localStorage.removeItem("access_token");
                     window.location.href = this.loginPage;
